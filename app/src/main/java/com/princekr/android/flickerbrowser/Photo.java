@@ -1,6 +1,10 @@
 package com.princekr.android.flickerbrowser;
 
-public class Photo {
+import java.io.Serializable;
+
+public class Photo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private String mTitle;
     private String mAuthor;
