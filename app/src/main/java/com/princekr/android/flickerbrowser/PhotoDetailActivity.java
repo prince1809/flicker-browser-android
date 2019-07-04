@@ -1,6 +1,7 @@
 package com.princekr.android.flickerbrowser;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,10 +21,13 @@ public class PhotoDetailActivity extends BaseActivity {
         Photo photo = (Photo) intent.getSerializableExtra(PHOTO_TRANSFER);
         if(photo != null) {
             TextView photoTitle = (TextView) findViewById(R.id.photo_title);
-            photoTitle.setText("Title: " + photo.getTitle());
+            Resources resources = getResources();
+            String photoTitleStr = resources.getString(R.string.photo_title_text, photo.getTitle());
+            photoTitle.setText(photoTitleStr);
 
             TextView photoTags = (TextView) findViewById(R.id.photo_tags);
-            photoTags.setText("Tags: " + photo.getTags());
+            String text = resources.getString(R.string.photo_title_text, photo.getTitle());
+            photoTags.setText(text);
 
             TextView photoAuthor = (TextView) findViewById(R.id.photo_author);
             photoAuthor.setText(photo.getAuthor());
