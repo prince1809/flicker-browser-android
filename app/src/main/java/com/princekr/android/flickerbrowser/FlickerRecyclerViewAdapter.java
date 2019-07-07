@@ -34,18 +34,24 @@ class FlickerRecyclerViewAdapter extends RecyclerView.Adapter<FlickerRecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull FlickerImageViewHolder holder, int position) {
-        Photo photoItem = mPhotoList.get(position);
-        Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle() + " ---> " + position);
-        Picasso.with(mContext).load(photoItem.getImage())
-                .error(R.drawable.placeholder)
-                .placeholder(R.drawable.placeholder)
-                .into(holder.thumbnail);
-        holder.title.setText(photoItem.getTitle());
+
+        if (mPhotoList == null || (mPhotoList.size() == 0)) {
+            holder.thumbnail.setImageResource(R.drawable.placeholder);
+            holder.title.setText(R.string.empty_photos);
+        } else {
+            Photo photoItem = mPhotoList.get(position);
+            Log.d(TAG, "onBindViewHolder: " + photoItem.getTitle() + " ---> " + position);
+            Picasso.with(mContext).load(photoItem.getImage())
+                    .error(R.drawable.placeholder)
+                    .placeholder(R.drawable.placeholder)
+                    .into(holder.thumbnail);
+            holder.title.setText(photoItem.getTitle());
+        }
     }
 
     @Override
     public int getItemCount() {
-        return ((mPhotoList != null) && (mPhotoList.size() != 0) ? mPhotoList.size() : 0);
+        return ((mPhotoList != null) && (mPhotoList.size() != 0) ? mPhotoList.size() : 1);
     }
 
     void loadNewData(List<Photo> newPhotos) {

@@ -1,7 +1,9 @@
 package com.princekr.android.flickerbrowser;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,9 +43,13 @@ public class MainActivity extends BaseActivity implements GetFlickerJsonData.OnD
     protected void onResume() {
         Log.d(TAG, "onResume: starts");
         super.onResume();
-        GetFlickerJsonData getFlickerJsonData = new GetFlickerJsonData(this, "https://www.flickr.com/services/feeds/photos_public.gne", "en-US", true);
-        //getFlickerJsonData.executeOnSameThread("android, nougat");
-        getFlickerJsonData.execute("android, nougat");
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String queryResult = sharedPreferences.getString(FLICKR_QUERY, "");
+        if (queryResult.length() > 0) {
+            GetFlickerJsonData getFlickerJsonData = new GetFlickerJsonData(this, "https://www.flickr.com/services/feeds/photos_public.gne", "en-US", true);
+            getFlickerJsonData.execute(queryResult);
+        }
         Log.d(TAG, "onResume: ends");
     }
 
